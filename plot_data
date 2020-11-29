@@ -1,0 +1,29 @@
+# Industry-Project-Group-3
+##plotting SumWaits vs AvgHowEarlyWaiting
+plot(wait$SumWaits,wait$AvgHowEarlyWaiting)
+
+##creating fit for data##
+fit <-lm(AvgHowEarlyWaiting ~SumWaits, data = wait)
+
+##abline##
+abline(fit,col="magenta")
+
+#Summary of fit data##
+summary(fit)
+
+colnames(wait)
+colnames(wait)[9]<-'0_min_pat'
+colnames(wait)[10]<-'15_min_pat'
+colnames(wait)[11]<-'30_min_pat'
+colnames(wait)[12]<-'45_min_pat'
+colnames(wait)[13]<-'60_min_pat'
+
+hist(wait$'30_min_pat')
+tapply(wait$DayOfWeek, wait$SumWaits)
+wait_by_day_sum<-as.data.frame(table(tapply(wait$DayOfWeek, wait$SumWaits)))
+which.max(wait_by_day_sum$Freq)
+
+
+summary(wait$Wait)
+summary(wait$AvgHowEarlyWaiting)
+hist(wait$'x_ArrivalDTTM')
