@@ -11,6 +11,7 @@ Residuals:
 -441.96  -19.59    2.63   24.86  316.02 
 
 Coefficients:
+
 Estimate Std. Error t value Pr(>|t|)
 
 (Intercept)                           31.049680   4.892023   6.347 2.24e-10 ***
