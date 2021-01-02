@@ -16,9 +16,9 @@ waitData <- read_excel("F3_PostMatClean.xlsx")
 
 # (2) apply MLR:
 # We want to build a model for estimating waiting time  based on the 19 variables (x1, x2,...,x19), as follow:
-#     wait_time = b0 + b1*x1 + b2*x2 + ... +b3*x19
-#compute the model coefficients:
+# wait_time = b0 + b1*x1 + b2*x2 + ... +b3*x19
 
+#compute the model coefficients:
 wait_time_model <- lm(Wait ~., data = waitData)
 summary(wait_time_model)
 
