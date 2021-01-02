@@ -52,7 +52,7 @@ SumTimeToCompleteInProgress            0.008299   0.005722   1.450 0.146955
   WithContrastCountInProgress           -0.285080   0.483799  -0.589 0.555697
   
   WithAndWithoutContrastCountInProgress  0.797364   0.754982   1.056 0.290917
-  ---
+  
   Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 
