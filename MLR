@@ -1,0 +1,32 @@
+# set the working path where all the project files and data are stored
+setwd("C:/Users/Khalid/Documents/MLR")
+
+# read the excal file that has the cleaned data
+library(readxl)
+waitData <- read_excel("F3_PostMatClean.xlsx")
+
+
+#Building model using Multiple Linear Regression steps:
+# (1): The first step in exploratory data analysis is plotting the data.
+# Before we apply linear regression models, we'll need to verify that several assumptions are met. 
+# 1- we need to make sure that a linear relationship exists between the dependent variable (wait) and each independent variables.
+# 2- check multicollinearity between predictor variables: meaning the Independent variables are Not much correlated
+# The above step has been done using heat map
+
+
+# (2) apply MLR:
+# We want to build a model for estimating waiting time  based on the 19 variables (x1, x2,...,x19), as follow:
+#     wait_time = b0 + b1*x1 + b2*x2 + ... +b3*x19
+#compute the model coefficients:
+
+wait_time_model <- lm(Wait ~., data = waitData)
+summary(wait_time_model)
+
+
+# (3) Checking Model Assumptions:
+# use the plot() function to produce diagnostic plots of our liner regression fit.
+par(mfrow = c(2,2))
+plot(wait_time_model)
+
+
+
