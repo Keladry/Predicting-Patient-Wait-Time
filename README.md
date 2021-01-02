@@ -15,6 +15,7 @@ Estimate Std. Error t value Pr(>|t|)
 (Intercept)                           31.049680   4.892023   6.347 2.24e-10 ***
 
 AvgHowEarlyWaiting                    -0.086655   0.011885  -7.291 3.17e-13 ***
+
 LineCount0                             1.000630   0.193026   5.184 2.19e-07 ***
 
 FlowCount2                            -2.690965   0.291442  -9.233  < 2e-16 ***
@@ -40,7 +41,6 @@ SumTimeToCompleteInProgress            0.008299   0.005722   1.450 0.146955
  AvgAgePeopleWaiting                   -0.232291   0.050783  -4.574 4.80e-06 ***
  
  NumCustomersInLastW1                  -1.932721   0.230398  -8.389  < 2e-16 ***
- 
  
   AvgWaitLastW1                          0.112785   0.014220   7.932 2.26e-15 ***
   
