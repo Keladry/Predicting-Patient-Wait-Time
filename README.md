@@ -1,5 +1,4 @@
 # Industry-Project-Group-3
-
 > wait_time_model <- lm(Wait ~., data = waitData)
 > summary(wait_time_model)
 
@@ -46,6 +45,7 @@ Checking Model Assumptions:
 At this point, we need to check the assumptions of our model to be sure that the model provides accurate results.
 # use the plot() function to produce diagnostic plots of our liner regression fit.
 par(mfrow = c(2,2))
+
 
 1-Linearity of Relationship:
 The plot shows that there appears to be a linear relationship between the fitted line and the residual value creating a mostly horizontal line (red) at zero in the representation of their relationship.
