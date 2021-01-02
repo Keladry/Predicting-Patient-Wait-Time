@@ -16,30 +16,45 @@ Estimate Std. Error t value Pr(>|t|)
 
 AvgHowEarlyWaiting                    -0.086655   0.011885  -7.291 3.17e-13 ***
 
-Coefficients:
-  Estimate Std. Error t value Pr(>|t|)    
-(Intercept)                           31.049680   4.892023   6.347 2.24e-10 ***
-  AvgHowEarlyWaiting                    -0.086655   0.011885  -7.291 3.17e-13 ***
-  LineCount0                             1.000630   0.193026   5.184 2.19e-07 ***
-  FlowCount2                            -2.690965   0.291442  -9.233  < 2e-16 ***
-  SchFlowCount4                          2.452192   0.169395  14.476  < 2e-16 ***
-  FutFlowCount2                          2.080822   0.322556   6.451 1.13e-10 ***
-  AheadCount                            -1.054096   0.022987 -45.855  < 2e-16 ***
-  BeforeSlot                             0.144735   0.041454   3.491 0.000481 ***
-  AfterSlot                             -0.251491   0.037720  -6.667 2.66e-11 ***
-  Median5                                0.258703   0.013579  19.051  < 2e-16 ***
-  AvgWaitByTaskTypeLine                  0.004834   0.023582   0.205 0.837584    
-  SumTimeToCompleteInProgress            0.008299   0.005722   1.450 0.146955    
+LineCount0                             1.000630   0.193026   5.184 2.19e-07 ***
+
+FlowCount2                            -2.690965   0.291442  -9.233  < 2e-16 ***
+
+SchFlowCount4                          2.452192   0.169395  14.476  < 2e-16 ***
+
+FutFlowCount2                          2.080822   0.322556   6.451 1.13e-10 ***
+
+AheadCount                            -1.054096   0.022987 -45.855  < 2e-16 ***
+
+BeforeSlot                             0.144735   0.041454   3.491 0.000481 ***
+
+AfterSlot                             -0.251491   0.037720  -6.667 2.66e-11 ***
+
+Median5                                0.258703   0.013579  19.051  < 2e-16 ***
+
+AvgWaitByTaskTypeLine                  0.004834   0.023582   0.205 0.837584
+
+SumTimeToCompleteInProgress            0.008299   0.005722   1.450 0.146955
+
   ExpectedDelayNextExam                  0.410723   0.066391   6.186 6.26e-10 ***
-  AvgAgePeopleWaiting                   -0.232291   0.050783  -4.574 4.80e-06 ***
-  NumCustomersInLastW1                  -1.932721   0.230398  -8.389  < 2e-16 ***
+  
+ AvgAgePeopleWaiting                   -0.232291   0.050783  -4.574 4.80e-06 ***
+ 
+ NumCustomersInLastW1                  -1.932721   0.230398  -8.389  < 2e-16 ***
+ 
+ 
   AvgWaitLastW1                          0.112785   0.014220   7.932 2.26e-15 ***
-  SumTimeToCompleteNextSlot             -0.033806   0.027874  -1.213 0.225217    
-  WithAndWithoutContrastCountWaiting     1.166226   0.419776   2.778 0.005470 ** 
-  WithContrastCountInProgress           -0.285080   0.483799  -0.589 0.555697    
-  WithAndWithoutContrastCountInProgress  0.797364   0.754982   1.056 0.290917    
----
+  
+  SumTimeToCompleteNextSlot             -0.033806   0.027874  -1.213 0.225217
+  
+  WithAndWithoutContrastCountWaiting     1.166226   0.419776   2.778 0.005470 **
+  
+  WithContrastCountInProgress           -0.285080   0.483799  -0.589 0.555697
+  
+  WithAndWithoutContrastCountInProgress  0.797364   0.754982   1.056 0.290917
+  ---
   Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 
 Residual standard error: 45.03 on 23563 degrees of freedom
 Multiple R-squared:  0.1315,	Adjusted R-squared:  0.1308 
@@ -50,7 +65,7 @@ Also, according to the p-value corresponding to each predictor’s t-stat, we ca
 
 Checking Model Assumptions:
 At this point, we need to check the assumptions of our model to be sure that the model provides accurate results.
-# use the plot() function to produce diagnostic plots of our liner regression fit.
+-use the plot() function to produce diagnostic plots of our liner regression fit.
 par(mfrow = c(2,2))
 
 
