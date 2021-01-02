@@ -2,12 +2,17 @@
 > wait_time_model <- lm(Wait ~., data = waitData)
 > summary(wait_time_model)
 
+
 Call:
   lm(formula = Wait ~ ., data = waitData)
 
 Residuals:
   Min      1Q  Median      3Q     Max 
 -441.96  -19.59    2.63   24.86  316.02 
+
+Coefficients:
+Estimate Std. Error t value Pr(>|t|)
+
 
 Coefficients:
   Estimate Std. Error t value Pr(>|t|)    
