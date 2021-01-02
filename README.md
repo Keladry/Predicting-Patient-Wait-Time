@@ -12,7 +12,8 @@ Residuals:
 
 Coefficients:
 Estimate Std. Error t value Pr(>|t|)
-
+(Intercept)                           31.049680   4.892023   6.347 2.24e-10 ***
+AvgHowEarlyWaiting                    -0.086655   0.011885  -7.291 3.17e-13 ***
 
 Coefficients:
   Estimate Std. Error t value Pr(>|t|)    
