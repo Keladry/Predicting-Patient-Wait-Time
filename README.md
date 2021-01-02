@@ -86,7 +86,7 @@ This plot is similar to the residual plot, but uses the square root of the stand
 ![scaleLocation](https://user-images.githubusercontent.com/73409985/103451524-ed978b00-4c92-11eb-94f3-88fd45037958.png)
 
 4- Outliers and high levarage points
-The plot highlights the top 3 most extreme points (#3594, #2912 and #3588), with a standardized residuals above 5 and below -5. However, there are no outliers that exceed 3 standard deviations, which is good.
+The plot highlights the top 3 most extreme points (#13594, #12912 and #13588), with a standardized residuals above 5 and below -5. However, there are no outliers that exceed 3 standard deviations, which is good.
 Additionally, there is no high leverage point in the data. That is, all data points, have a leverage statistic below 2(p + 1)/n = 40/23583 = 0.0017.
 
 ![residualVsLeverage](https://user-images.githubusercontent.com/73409985/103451526-f0927b80-4c92-11eb-9b1e-f9d726ff7a1d.png)
