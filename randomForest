@@ -1,0 +1,48 @@
+###Uploading Clean Data##
+
+wait_data<-read.csv("~/Desktop/DataScience/F3_clean.csv")
+View(wait_data)
+
+#activate packaged#
+library(randomForest)
+
+#assessing data#
+
+head(wait_data)
+str(wait_data)
+summary(wait_data)
+
+#set seed#
+set.seed(100)
+
+#train & test data#
+
+wait_train<-sample(nrow(wait_data),0.7*nrow(wait_data),replace=FALSE)
+
+TrainSet<-wait_data[wait_train,]
+ValidSet<-wait_data [-wait_train,]
+
+#summary of Train and Valid set#
+
+summary(TrainSet)
+summary(ValidSet)
+
+#create model1#
+wait_model1<-randomForest(Wait~ ., data=TrainSet, importance=TRUE)
+
+#call/refine model#
+
+randomForest(formula = Wait~ ., data =TrainSet, importance = TRUE)
+  
+
+#create model2#
+
+wait_model2<-randomForest(Wait~., data = TrainSet, ntree=100, mtry=6, importance=TRUE)
+
+randomForest(formula = Wait~., data=TrainSet, ntree=100, mtry=6, importance=TRUE)
+
+#Prediction#
+
+predTrain<- predict(wait_model2,TrainSet,Type="class")
+
+table(predTrain, TrainSet$Wait)
