@@ -1,0 +1,93 @@
+###Uploading Clean Data##
+
+wait_data<-read.csv("~/Desktop/DataScience/F3_clean.csv")
+View(wait_data)
+
+#activate packaged#
+library(randomForest)
+
+#assessing data#
+
+head(wait_data)
+str(wait_data)
+summary(wait_data)
+
+#set seed#
+set.seed(100)
+
+#train & test data#
+
+wait_train<-sample(nrow(wait_data),0.7*nrow(wait_data),replace=FALSE)
+
+TrainSet<-wait_data[wait_train,]
+ValidSet<-wait_data [-wait_train,]
+
+#summary of Train and Valid set#
+
+summary(TrainSet)
+summary(ValidSet)
+
+#create model1#
+wait_model1<-randomForest(Wait~ ., data=TrainSet, importance=TRUE)
+
+#call/refine model#
+
+randomForest(formula = Wait~ ., data =TrainSet, importance = TRUE)
+  
+
+#create model2#
+
+wait_model2<-randomForest(Wait~., data = TrainSet, ntree=100, mtry=3, importance=TRUE)
+
+randomForest(formula = Wait~., data=TrainSet, ntree=100, mtry=3, importance=TRUE)
+
+#Prediction#
+
+predTrain<- predict(wait_model2,TrainSet,Type="class")
+
+table(predTrain, TrainSet$Wait)
+
+
+#PreValid-predicting the valid set#
+
+PreValid<-predict(wait_model2,ValidSet, type="class")
+
+mean(PreValid==ValidSet$Wait)
+
+table(PreValid, ValidSet$Wait)
+
+#importance#
+
+importance(wait_model2)
+varImpPlot(wait_model2)
+
+
+##using a loop and checking for different mtry values##
+a=c
+i=5
+for(i in 3:8){
+  model3 <-randomForest(Wait~.,data = TrainSet, ntree=100, mtry=i,importance=TRUE)
+  PreValid<-predict(model3, ValidSet, type="class")
+  a[i-2]=mean(PreValid==ValidSet$Wait)
+}
+
+
+###COMPARE DECISION TREEE TO RANDOM FOREST###
+
+##installing libraries for decision tree#
+library(rpart)
+install.packages("caret")
+library(caret)
+library(e1071)
+
+##Create models##
+
+mod_wait = train(Wait~., data=TrainSet, method ="rpart")
+
+mod_wait_1=predict(mod_wait, data =TrainSet)
+table(mod_wait_1,TrainSet$Wait)
+
+mean(mod_wait_1 == TrainSet$Wait)
+table(mod_wait_1,TrainSet$Wait)
+
+mean(mod_wait_1, TrainSet$Wait)
