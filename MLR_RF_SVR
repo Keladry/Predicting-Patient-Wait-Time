@@ -1,0 +1,133 @@
+# set the working path where all the project files and data are stored
+setwd("C:/Users/Khalid/Documents/MLR")
+
+# read the excal file that has the cleaned data
+library(readxl)
+
+waitData <- read_excel("F3_PostMatClean.xlsx")
+# to remove negtive values
+waitData <- waitData[waitData$Wait >= 0, ]
+
+#Building model using Multiple Linear Regression steps:
+# (1): The first step in exploratory data analysis is plotting the data.
+# Before we apply linear regression models, we'll need to verify that several assumptions are met. 
+# 1- we need to make sure that a linear relationship exists between the dependent variable (wait) and each independent variables.
+# 2- check multicollinearity between predictor variables: meaning the Independent variables are Not much correlated
+
+# to check for linearity and , Scatterplots matrix and correlation matrix can be used 
+#pairs(waitData)
+
+## The above have been done using heat map
+
+# 3- homoscedasticity: The Residual variance is constant
+
+# apply MLR:
+# We want to build a model for estimating waiting time  based on the 19 variables (x1, x2,...,x19), as follow:
+#     wait_time = b0 + b1*x1 + b2*x2 + ... +b3*x19
+#compute the model coefficients:
+
+wait_time_model <- lm(Wait ~., data = waitData)
+summary(wait_time_model)
+
+
+
+# Checking Model Assumptions:
+# use the plot() function to produce diagnostic plots of our liner regression fit.
+par(mfrow = c(2,2))
+plot(wait_time_model)
+
+#plot(wait_time_model,4)
+
+
+
+# delete columns that have high P value:
+waitData <-waitData[,-which(names(waitData) %in% c("AvgWaitByTaskTypeLine", "SumTimeToCompleteInProgress",
+                        "AvgAgePeopleWaiting", "SumTimeToCompleteNextSlot",
+                        "WithAndWithoutContrastCountWaiting", 
+                        "WithContrastCountInProgress",
+                        "WithAndWithoutContrastCountInProgress"))]
+
+
+set.seed(123) # Set random seed to make results reproducible.
+# Generate a random sample
+ran <- sample(nrow(waitData), nrow(waitData)*0.8)
+# Assign the data to the correct sets: Split data into training and test sets
+
+wait_train <- waitData[ran,]
+wait_test <- waitData [-ran,]
+
+dim(wait_train)
+dim(wait_test)
+
+
+### MLR:
+# for training set:
+wait_train_data <- lm(Wait ~., data = wait_train)
+summary(wait_train_data)
+plot(wait_train_data)
+
+# for testing set:
+wait_test_data <- lm(Wait ~., data = wait_test)
+summary(wait_test_data )
+plot(wait_test_data )
+
+### randomForest :-
+#import the package
+library(randomForest)
+# Perform training: Train the model 
+#rf <- randomForest(Wait ~ .,data =waitData,ntree=50, mtry=3, importance=TRUE)
+rf <- randomForest(Wait ~ .,data =wait_train, ntree=100, mtry=3, importance=TRUE)
+# View the forest results.
+print(rf) 
+plot(rf)
+
+## Show "importance" of variables: higher value mean more important:
+round(importance(rf), 2)
+
+# Make prediction:
+pred_rf <- predict(rf, wait_test)#Predictions on Test Set for each Tree
+print(pred_rf)
+plot(pred_rf)
+
+x = 1:length(wait_test$Wait)
+
+plot(x, wait_test$Wait, pch=18, col="red")
+lines(x, pred_rf, lwd="1", col="blue")
+
+
+mse_rf = mse( wait_test$Wait, pred_rf)
+mae_rf = mae (wait_test$Wait, pred_rf)
+
+# Calculating RMSE using rmse()          
+rmse_rf = rmse(wait_test$Wait, pred_rf)
+
+cat(" MAE:", mae_rf, "\n", "MSE:", mse_rf, "\n", 
+    "RMSE:", rmse_rf)
+
+##########SVR:
+# fitting the regression model to the dataset
+# install.packages("e1071"")
+library(e1071)
+SVR_model <-  svm(Wait ~ .,data =wait_train)  # kernel = 'linear') 
+summary(SVR_model)
+
+# predicting a new result 
+
+pred = predict(SVR_model, wait_test)
+
+#x = 1:length(wait_test$Wait)
+#plot(x, wait_test$Wait, pch=18, col="red")
+lines(x, pred, lwd="1", col="green")
+
+#install.packages("Metrics")
+library(Metrics)
+
+mse_svr = mse( wait_test$Wait, pred)
+mae_svr = mae (wait_test$Wait, pred)
+
+# Calculating RMSE using rmse()          
+rmse_svr = rmse(wait_test$Wait, pred)
+
+cat(" MAE:", mae_svr, "\n", "MSE:", mse_svr, "\n", 
+    "RMSE:", rmse_svr)
+
