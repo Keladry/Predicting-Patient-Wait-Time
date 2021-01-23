@@ -1,3 +1,3 @@
-# Predicting Wait Time
+# Predicting Patient Wait Time
 
 Details about project will go here!
