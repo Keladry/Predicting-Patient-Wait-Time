@@ -1,3 +1,3 @@
-# Industry-Project-Group-3
+# Predicting Wait Time
 
 Details about project will go here!
