@@ -1,0 +1,60 @@
+# set the working path where all the project files and data are stored
+setwd("C:/Users/Khalid/Documents/MLR")
+
+# read the excal file that has the cleaned data
+library(readxl)
+
+waitData <- read_excel("F3_PostMatClean.xlsx")
+
+# to remove negtive values
+waitData <- waitData[waitData$Wait >= 0, ]
+
+# Set random seed to make results reproducible.
+set.seed(123) 
+
+# Generate a random sample
+ran <- sample(nrow(waitData), nrow(waitData)*0.8)
+
+# Assign the data to the correct sets: Split data into training and test sets
+wait_train <- waitData[ran,]
+wait_test <- waitData [-ran,]
+
+dim(wait_train)
+dim(wait_test)
+
+
+##########SVR:
+# fitting the regression model to the dataset
+
+# install.packages("e1071"")
+library(e1071)
+
+#install.packages("Metrics")
+library(Metrics)
+
+# Perform training: Train the model 
+SVR_model <-  svm(Wait ~ .,data =wait_train, kernel = 'radial') #polynomial, linear, radial 
+summary(SVR_model)
+#plot(SVR_model)
+
+# predicting a new result on test set
+pred_SVR = predict(SVR_model, wait_test)
+
+# set the X axis as the length of the wait test data
+x = 1:length(wait_test$Wait)
+
+# plot the dependent variable (Wait) on the wait test data, which is our actual values, as red scatter on the plot 
+# and the predict values as green color on the plot.
+plot(x, wait_test$Wait,main="Support Vector Regression  ", xlab="wait", ylab="Estimated wait", pch=18,  col = rgb(red = 1, green = 0, blue = 0, alpha = 0.7))
+lines(x, pred_SVR, lwd="1", col="green")
+
+# Calculating MSE,MEA and RMSE
+mse_svr = mse( wait_test$Wait, pred_SVR)
+mae_svr = mae (wait_test$Wait, pred_SVR)
+rmse_svr = rmse(wait_test$Wait, pred_SVR)
+
+# print the results of MSE,MEA and RMSE
+cat(" MAE:", mae_svr, "\n", "MSE:", mse_svr, "\n", 
+    "RMSE:", rmse_svr)
+
+
