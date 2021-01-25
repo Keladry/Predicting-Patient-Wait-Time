@@ -1,0 +1,61 @@
+# set the working path where all the project files and data are stored
+setwd("C:/Users/Khalid/Documents/MLR")
+
+# read the excal file that has the cleaned data
+library(readxl)
+
+waitData <- read_excel("F3_PostMatClean.xlsx")
+
+# to remove negtive values
+waitData <- waitData[waitData$Wait >= 0, ]
+
+# Set random seed to make results reproducible.
+set.seed(123) 
+
+# Generate a random sample
+ran <- sample(nrow(waitData), nrow(waitData)*0.8)
+
+# Assign the data to the correct sets: Split data into training and test sets
+wait_train <- waitData[ran,]
+wait_test <- waitData [-ran,]
+
+dim(wait_train)
+dim(wait_test)
+
+
+### randomForest :-
+#import the package
+library(randomForest)
+
+# Perform training: Train the model 
+rf_model <- randomForest(Wait ~ .,data =wait_train, ntree=500, mtry=6, importance=TRUE)
+
+# View the forest results.
+summary(rf_model)
+print(rf_model) 
+plot(rf_model)
+
+## Show "importance" of variables: higher value mean more important:
+round(importance(rf_model), 2)
+
+# Make prediction on test set
+pred_rf <- predict(rf_model, wait_test)#Predictions on Test Set for each Tree
+#print(pred_rf)
+plot(pred_rf)
+
+# set the X axis as the length of the wait test data
+x = 1:length(wait_test$Wait)
+
+# plot the dependent variable (Wait) on the wait test data, which is our actual values, as red scatter on the plot 
+# and the predict values as blue color on the plot.
+plot(x, wait_test$Wait, main="Random Forest  ", xlab="wait", ylab="Estimated wait", pch=18,  col = rgb(red = 1, green = 0, blue = 0, alpha = 0.7))
+lines(x, pred_rf, lwd="1", col="blue")
+
+# Calculating MSE,MEA and RMSE
+mse_rf = mse( wait_test$Wait, pred_rf)
+mae_rf = mae (wait_test$Wait, pred_rf)
+rmse_rf = rmse(wait_test$Wait, pred_rf)
+
+# print the results of MSE,MEA and RMSE
+cat(" MAE:", mae_rf, "\n", "MSE:", mse_rf, "\n", 
+    "RMSE:", rmse_rf)
