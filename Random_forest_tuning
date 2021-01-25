@@ -1,0 +1,154 @@
+###Uploading Clean Data##
+
+wait_data<-read.csv("~/Desktop/DataScience/F3_clean.csv")
+View(wait_data)
+
+#removing negative values#
+wait_data <- wait_data[wait_data$Wait >= 0, ]
+#checking to make sure all negative values have been removed#
+View(wait_data)
+#activate packaged#
+library(randomForest)
+
+#assessing data#
+head(wait_data)
+str(wait_data)
+summary(wait_data)
+
+#set seed#
+set.seed(123)
+
+#train & test data#
+wait_train<-sample(nrow(wait_data),0.8*nrow(wait_data),replace=FALSE)
+
+#creating Train and Validset#
+TrainSet<-wait_data[wait_train,]
+ValidSet<-wait_data [-wait_train,]
+
+#summary of Train and Valid set#
+summary(TrainSet)
+summary(ValidSet)
+
+#Dimension of Train and Validset#
+str(TrainSet)
+str(ValidSet)
+
+
+#create model1#
+wait_model1<-randomForest(Wait~ ., data=TrainSet,ntree=150, mtry=4, importance=TRUE)
+randomForest(formula = Wait~.,data=TrainSet,ntree=150, mtry=4, importance=TRUE)
+
+##prediction for model 1###
+predTrain1<- predict(wait_model1,TrainSet,Type="class")
+print()
+
+#call/refine model#
+
+randomForest(formula = Wait~ ., data =TrainSet, importance = TRUE)
+  
+
+#create model2#
+
+wait_model2<-randomForest(Wait~., data = TrainSet, ntree=100, mtry=3, importance=TRUE)
+
+randomForest(formula = Wait~., data=TrainSet, ntree=550, mtry=6, importance=TRUE)
+
+#tuning a model# In this model  
+randomForest(formula = Wait~., data=TrainSet, ntree=100, mtry=2, importance=TRUE)
+randomForest(formula = Wait~., data=TrainSet, ntree=450, mtry=6, importance=TRUE)
+randomForest(formula = Wait~., data=TrainSet, ntree=200, mtry=6, importance=TRUE)
+randomForest(formula = Wait~., data=TrainSet, ntree=550, mtry=6, importance=TRUE)
+
+
+#tuning test model RF#
+randomForest(formula = Wait~., data=TrainSet, ntree=150, mtry=6, importance=TRUE)
+test_prediction <- predict(TrainSet, ValidSet)
+
+#Establishing Test Prediction#
+test_prediction <- predict(TrainSet, ValidSet)
+
+class(TrainSet)
+class(ValidSet)
+
+#installing package for metrics#
+#code for MSE
+install.packages("MLmetrics")
+library(MLmetrics)
+MLR_MSE <- MSE(wait_train, ValidSet$Wait)
+
+
+#Prediction#
+predTrain<- predict(wait_model2,TrainSet,Type ="class")
+table(predTrain, TrainSet$Wait)
+
+#PreValid-predicting the valid set#
+
+PreValid<-predict(wait_model2,ValidSet, type="class")
+
+mean(PreValid==ValidSet$Wait)
+
+table(PreValid, ValidSet$Wait)
+
+#importance#
+
+importance(wait_model2)
+varImpPlot(wait_model2)
+
+
+##using a loop and checking for different mtry values##
+#for loop for trying different mtry values for the RF tree#
+a=c()
+i=5
+for(i in 3:8){
+  model3 <-randomForest(Wait~.,data = TrainSet, ntree=550, mtry=i,importance=TRUE)
+  PreValid<-predict(model3, ValidSet, type="class")
+  a[i-2]=mean(PreValid==ValidSet$Wait)
+}
+
+#Trouble-shooting for-loop# 
+#checking for class
+class(PreValid)
+print("This is a test")
+
+
+###COMPARE DECISION TREEE TO RANDOM FOREST###
+
+##installing libraries for decision tree#
+library(rpart)
+install.packages("caret")
+library(caret)
+library(e1071)
+
+##Create models##
+
+mod_wait = train(Wait~., data=TrainSet, method ="rpart")
+
+mod_wait_1=predict(mod_wait, data =TrainSet)
+table(mod_wait_1,TrainSet$Wait)
+
+mean(mod_wait_1 == TrainSet$Wait)
+table(mod_wait_1,TrainSet$Wait)
+
+mean(mod_wait_1, TrainSet$Wait)
+                                                                                                                          
+####Generic RF CODE FOR TEST PURPOSES###
+##using the plot function to produce plots of linear regression#
+par(mfrow=c(2,2))
+plot(mod_wait_1)
+
+##checking dimension of test and train##
+dim(TrainSet)
+dim(ValidSet)
+
+#random forest on training Model#
+RF1<-randomForest(Wait~.,data = TrainSet)
+print(RF1)
+
+##Tuning the model##
+predictions<-predict(RF1,ValidSet)
+print(predictions)
+plot(predictions)
+
+##importance##
+round(importance(RF1),2)
+
