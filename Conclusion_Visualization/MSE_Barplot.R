@@ -20,7 +20,7 @@ barnames <- c("Linear Regression","SVR\n Linear Kernel","SVR\n Polynomial Kernel
 green <- "#99FF99"
 blue <- "#99CCFF"
 purple <- "#CC99FF"
-colours <- c(greens, blues, blues, blues, purples)
+colours <- c(green, blue, blue, blue, purple)
 
 #creates barplot
 barplot <- barplot(MSE_list, space=barspacing, names.arg=barnames, col=colours,
