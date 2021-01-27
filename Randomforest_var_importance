@@ -1,0 +1,49 @@
+waitData<-read.csv("~/Desktop/DataScience/F3_clean.csv")
+View(waitData)
+#Removing Values with high p-value per MLR#
+View(waitData)
+waitData <-wait_data[,-which(names(waitData) %in% c("AvgWaitByTaskTypeLine", "SumTimeToCompleteInProgress",
+                                                      "AvgAgePeopleWaiting", "SumTimeToCompleteNextSlot",
+                                                      "WithAndWithoutContrastCountWaiting", 
+                                                      "WithContrastCountInProgress",
+                                                      "WithAndWithoutContrastCountInProgress"))]
+
+set.seed(123) # Set random seed to make results reproducible.
+# Generate a random sample
+ran <- sample(nrow(waitData), nrow(waitData)*0.8)
+# Assign the data to the correct sets: Split data into training and test sets
+
+wait_train <- waitData[ran,]
+wait_test <- waitData [-ran,]
+
+dim(wait_train)
+dim(wait_test)
+# to remove negtive values
+waitData <- waitData[waitData$Wait >= 0, ]
+
+
+### randomForest :-
+#import the package
+library(randomForest)
+# Perform training: Train the model 
+#default random forest#
+rf<-randomForest(formula = Wait~ ., data =waitData, importance = TRUE)
+
+
+######Tuning# the actual default settings led to the lowest MSE#############
+#rf <- randomForest(Wait ~ .,data =waitData,ntree=50, mtry=3, importance=TRUE)
+#rf1 <- randomForest(Wait ~ .,data =wait_train, ntree=550, mtry=8, importance=TRUE)
+#rf2<-randomForest(Wait ~ .,data =wait_train, ntree=550, mtry=7, importance=TRUE)
+#rf3<-randomForest(Wait ~ .,data =wait_train, ntree=500, mtry=, importance=TRUE)
+# View the forest results.
+print(rf) 
+#plot(rf1)
+
+#print(rf3)
+#print(rf2)
+
+## Show "importance" of variables: higher value mean more important:
+round(importance(rf), 2)
+#rf1 variable importance#
+round(importance(rf1),2)
+
